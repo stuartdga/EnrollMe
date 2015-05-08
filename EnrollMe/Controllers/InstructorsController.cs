@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using APICommon;
 using EnrollMeDB;
 
@@ -16,6 +17,7 @@ namespace EnrollMe.Controllers
         public string LastName { get; set; }
     }
 
+    [EnableCorsCustom]
     public class InstructorsController : ApiController
     {
         private APIResponseMessage apiResponse = new APIResponseMessage();
