@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 using Newtonsoft.Json;
 using APICommon;
 
@@ -9,11 +11,9 @@ namespace EnrollMe.Controllers
 {
     public class Helper
     {
-        public static List<LinkModel> SetLinks(string url, string routeKey, string controller, string method)
+        public static List<LinkModel> SetLinks(System.Web.Http.Routing.UrlHelper urlHelper, string routeName, string controller, string method, int id = 0)
         {
-            int i = url.IndexOf(routeKey);
-            url = url.Remove(i + routeKey.Length);
-
+            object route = null;
             List<LinkModel> links = new List<LinkModel>();
             switch (controller.ToUpper())
             {
@@ -23,10 +23,16 @@ namespace EnrollMe.Controllers
                         case "GET":
                         case "POST":
                         case "DELETE":
-                            links.Add(new LinkModel("get instructor", url + "/insrutctors/{id}", RestRequestVerb.GET));
-                            links.Add(new LinkModel("get instructors", url + "/insrutctors", RestRequestVerb.GET));
-                            links.Add(new LinkModel("post instructor", url + "/insrutctors", RestRequestVerb.POST));
-                            links.Add(new LinkModel("delete instructor", url + "/insrutctors/{id}", RestRequestVerb.DELETE));
+                            route = new { controller = controller };
+                            links.Add(new LinkModel("get instructors", urlHelper.Link(routeName, route), RestRequestVerb.GET));
+                            links.Add(new LinkModel("post instructor", urlHelper.Link(routeName, route), RestRequestVerb.POST));
+                            if (id > 0)
+                            {
+                                route = new { controller = controller, id = id };
+                                links.Add(new LinkModel("get instructor", urlHelper.Link(routeName, route), RestRequestVerb.GET));
+                                links.Add(new LinkModel("delete instructor", urlHelper.Link(routeName, route), RestRequestVerb.DELETE));
+                            }
+
                             break;
                     }
                     break;

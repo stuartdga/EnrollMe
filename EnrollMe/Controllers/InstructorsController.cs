@@ -21,6 +21,7 @@ namespace EnrollMe.Controllers
     public class InstructorsController : ApiController
     {
         private APIResponseMessage apiResponse = new APIResponseMessage();
+        public const string ROUTENAME = "DefaultApi";
 
         // GET: api/Intructors
         public HttpResponseMessage Get()
@@ -32,11 +33,11 @@ namespace EnrollMe.Controllers
                 var instructors = controller.GetAll();
                 if (instructors != null)
                 {
+                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Get");
                     return apiResponse.CreateResponse(HttpStatusCode.OK, instructors);
                 }
                 else
                 {
-                    apiResponse.Links = Helper.SetLinks(Request.RequestUri.ToString(), "api", "Instructors", "Get");
                     return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "Instructor was not found");
                 }
             }
@@ -58,7 +59,7 @@ namespace EnrollMe.Controllers
                 var instructors = controller.Get(id);
                 if (instructors != null)
                 {
-                    apiResponse.Links = Helper.SetLinks(Request.RequestUri.ToString(), "api", "Instructors", "Get");
+                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Get", id);
                     return apiResponse.CreateResponse(HttpStatusCode.OK, instructors);
                 }
                 else
@@ -87,7 +88,7 @@ namespace EnrollMe.Controllers
                 var instructor = controller.Add(instructorName.FirstName, instructorName.MiddleName, instructorName.LastName);
                 if (instructor != null)
                 {
-                    apiResponse.Links = Helper.SetLinks(Request.RequestUri.ToString(), "api", "Instructors", "Post");
+                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Post", instructor.InstructorId);
                     return apiResponse.CreateResponse(HttpStatusCode.OK, instructor);
                 }
                 else

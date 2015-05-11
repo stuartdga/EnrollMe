@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="InstructorsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\..\Projects\EnrollMeDB\EnrollMeDB\EnrollMeDB.csproj">
