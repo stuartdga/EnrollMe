@@ -17,14 +17,24 @@ namespace EnrollMe.Tests
     public class InstructorsTests
     {
         private EnrollMe.Controllers.InstructorsController controller = new EnrollMe.Controllers.InstructorsController();
+        public const string APIURL = "http://localhost/api/Instructors";
+        public const string ROUTENAME = "DefaultApi";
+        public const string ROUTETEMPLATE = "api/{controller}/{id}";
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            controller.Request = new HttpRequestMessage(HttpMethod.Get, APIURL);
+            controller.Configuration = new HttpConfiguration();
+            controller.Configuration.Routes.MapHttpRoute(
+                name: ROUTENAME,
+                routeTemplate: ROUTETEMPLATE,
+                defaults: new { id = RouteParameter.Optional });
+        }
 
         [TestMethod]
         public void Instructors_GetAll()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/EnrollMe/api/Instructors/0");
-            request.SetConfiguration(new HttpConfiguration());
-            var controller = new InstructorsController();
-            controller.Request = request;
             var response = controller.Get();
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NoContent);
         }
@@ -32,10 +42,6 @@ namespace EnrollMe.Tests
         [TestMethod]
         public void Instructors_GetById()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/EnrollMe/api/Instructors/0");
-            request.SetConfiguration(new HttpConfiguration());
-            var controller = new InstructorsController();
-            controller.Request = request;
             var response = controller.Get(0);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
         }
@@ -43,13 +49,9 @@ namespace EnrollMe.Tests
         [TestMethod]
         public void Instructors_Post()
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/EnrollMe/api/Instructors/");
-            request.SetConfiguration(new HttpConfiguration());
-            var controller = new InstructorsController();
-            controller.Request = request;
             var instructorName = new InstructorName();
-            request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
-            request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+            controller.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
+            controller.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
             var response = controller.Post(instructorName);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.Conflict);
 

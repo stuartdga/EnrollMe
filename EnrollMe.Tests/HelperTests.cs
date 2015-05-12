@@ -13,15 +13,23 @@ namespace EnrollMe.Tests
     [TestClass]
     public class HelperTests
     {
+        public const string APIURL = "http://localhost/api/Instructors";
+        public const string ROUTENAME = "DefaultApi";
+        public const string ROUTETEMPLATE = "api/{controller}/{id}";
+
         [TestMethod]
         public void SetLinks_Instructors()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/EnrollMe/api/Instructors");
-            request.SetConfiguration(new HttpConfiguration());
             var controller = new InstructorsController();
-            controller.Request = request;
-            //List<LinkModel> links = EnrollMe.Controllers.Helper.SetLinks(request.GetUrlHelper(), InstructorsController.ROUTENAME, "Instructors", "Get");
-            //Assert.IsTrue(links.Count > 0);
+            controller.Request = new HttpRequestMessage(HttpMethod.Get, APIURL);
+            controller.Configuration = new HttpConfiguration();
+            controller.Configuration.Routes.MapHttpRoute(
+                name: ROUTENAME,
+                routeTemplate: ROUTETEMPLATE,
+                defaults: new { id = RouteParameter.Optional });
+            List<LinkModel> links = EnrollMe.Controllers.Helper.SetLinks(controller.Request.GetUrlHelper(), InstructorsController.ROUTENAME, "Instructors", "Get");
+            Assert.IsTrue(links.Count > 0);
+            Assert.IsTrue(links[0].Href.Contains(APIURL));
         }
     }
 }
