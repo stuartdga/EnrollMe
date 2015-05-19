@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ClassesController.cs" />
     <Compile Include="Controllers\Helper.cs" />
     <Compile Include="Controllers\InstructorsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -168,13 +169,13 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\Projects\EnrollMeDB\EnrollMeDB\EnrollMeDB.csproj">
-      <Project>{8a4beadb-91bf-4975-a6c5-1775904eec7a}</Project>
-      <Name>EnrollMeDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\APICommon\APICommon.csproj">
       <Project>{7ad983ab-ea12-4442-b0af-4b2820024b0d}</Project>
       <Name>APICommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnrollMeDB\EnrollMeDB.csproj">
+      <Project>{8a4beadb-91bf-4975-a6c5-1775904eec7a}</Project>
+      <Name>EnrollMeDB</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

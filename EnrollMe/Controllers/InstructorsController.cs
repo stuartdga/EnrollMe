@@ -22,6 +22,7 @@ namespace EnrollMe.Controllers
     {
         private APIResponseMessage apiResponse = new APIResponseMessage();
         public const string ROUTENAME = "DefaultApi";
+        private EnrollMeDB.Controller.InstructorsController _controller = new EnrollMeDB.Controller.InstructorsController();
 
         // GET: api/Intructors
         public HttpResponseMessage Get()
@@ -29,8 +30,7 @@ namespace EnrollMe.Controllers
             try
             {
                 apiResponse.Request = Request;
-                var controller = new EnrollMeDB.Controller.InstructorsController();
-                var instructors = controller.GetAll();
+                var instructors = _controller.GetAll();
                 if (instructors != null)
                 {
                     apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Get");
@@ -38,7 +38,7 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "Instructor was not found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "No instructors found");
                 }
             }
             catch (Exception ex)
@@ -55,8 +55,7 @@ namespace EnrollMe.Controllers
             try
             {
                 apiResponse.Request = Request;
-                var controller = new EnrollMeDB.Controller.InstructorsController();
-                var instructors = controller.Get(id);
+                var instructors = _controller.Get(id);
                 if (instructors != null)
                 {
                     apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Get", id);
@@ -84,8 +83,7 @@ namespace EnrollMe.Controllers
                     return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Instructor name not provided");
                 }
                 apiResponse.Request = Request;
-                var controller = new EnrollMeDB.Controller.InstructorsController();
-                var instructor = controller.Add(instructorName.FirstName, instructorName.MiddleName, instructorName.LastName);
+                var instructor = _controller.Add(instructorName.FirstName, instructorName.MiddleName, instructorName.LastName);
                 if (instructor != null)
                 {
                     apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Post", instructor.InstructorId);
@@ -109,8 +107,27 @@ namespace EnrollMe.Controllers
         //}
 
         //// DELETE: api/Intructors/5
-        //public void Delete(int id)
-        //{
-        //}
+        public HttpResponseMessage Delete(int id)
+        {
+            try
+            {
+                apiResponse.Request = Request;
+                int result = _controller.Remove(id);
+                if (result > 0)
+                {
+                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Delete", id);
+                    return apiResponse.CreateResponse(HttpStatusCode.OK, result);
+                }
+                else
+                {
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "Instructor was not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                // log your exception
+                return apiResponse.CreateErrorResponse(HttpStatusCode.Conflict, "", "An exception has occurred");
+            }
+        }
     }
 }

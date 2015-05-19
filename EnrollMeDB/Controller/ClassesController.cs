@@ -65,13 +65,26 @@ namespace EnrollMeDB.Controller
             return db.Classes;
         }
 
+        public Classes Get(string className, string dayOfClass)
+        {
+            var classObject = db.Classes.FirstOrDefault(q => q.ClassName == className &&
+                                                                q.DayOfClass == dayOfClass);
+            return classObject;
+        }
+
         public Classes Get(string className, string dayOfClass, string timeOfClass, string location)
         {
-            var classes = db.Classes.FirstOrDefault(q => q.ClassName == className &&
+            var classObject = db.Classes.FirstOrDefault(q => q.ClassName == className &&
                                                                 q.DayOfClass == dayOfClass &&
                                                                 q.TimeOfClass == timeOfClass &&
                                                                 q.Location == location);
-            return classes;
+            return classObject;
+        }
+
+        public Classes Get(int id)
+        {
+            var classObject = db.Classes.FirstOrDefault(q => q.ClassId == id);
+            return classObject;
         }
     }
 }

@@ -15,11 +15,12 @@ namespace EnrollMeDBTest
         private ClassesController controller = new ClassesController();
         private InstructorsController instructorsController = new InstructorsController();
         private int instructorId;
+        private string _uniqueString = Helper.GenerateId();
 
         [TestInitialize]
         public void TestInitialize()
         {
-            var instructor = instructorsController.Add("asdf", "asdf", "asdf");
+            var instructor = instructorsController.Add(_uniqueString, "asdf", "asdf");
             instructorId = instructor.InstructorId;
         }
 
@@ -32,24 +33,27 @@ namespace EnrollMeDBTest
         [TestMethod]
         public void Classes_AddRemove()
         {
-            var classes = controller.Add("asdf", "asdf", "asdf", "asdf", instructorId);
+            var classes = controller.Add(_uniqueString, "asdf", "asdf", "asdf", instructorId);
             Assert.IsTrue(classes.ClassId > 0);
-            var classes2 = controller.Add("asdf", "asdf", "asdf", "asdf", instructorId);
+            var classes2 = controller.Add(_uniqueString, "asdf", "asdf", "asdf", instructorId);
             Assert.AreEqual(classes, classes2);
-            var result = controller.Remove("asdf", "asdf", "asdf", "asdf");
+            var result = controller.Remove(_uniqueString, "asdf", "asdf", "asdf");
             Assert.AreEqual(result, 1);
-            result = controller.Remove("asdf", "asdf", "asdf", "asdf");
+            result = controller.Remove(_uniqueString, "asdf", "asdf", "asdf");
             Assert.AreEqual(result, 0);
         }
 
         [TestMethod]
         public void Classes_Get()
         {
-        }
-
-        [TestMethod]
-        public void Classes_GetAll()
-        {
+            var result = controller.Remove(_uniqueString, "asdf", "asdf", "asdf");
+            var classes = controller.Add(_uniqueString, "asdf", "asdf", "asdf", instructorId);
+            Assert.AreEqual(classes, controller.Get(_uniqueString, "asdf"));
+            Assert.AreEqual(classes, controller.Get(_uniqueString, "asdf", "asdf", "asdf"));
+            Assert.AreEqual(classes, controller.Get(classes.ClassId));
+            var classes2 = controller.GetAll();
+            Assert.AreEqual(classes, classes2.FirstOrDefault(q => q.ClassId == classes.ClassId));
+            result = controller.Remove(_uniqueString, "asdf", "asdf", "asdf");
         }
     }
 }

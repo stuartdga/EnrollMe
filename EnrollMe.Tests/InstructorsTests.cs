@@ -16,7 +16,7 @@ namespace EnrollMe.Tests
     [TestClass]
     public class InstructorsTests
     {
-        private EnrollMe.Controllers.InstructorsController controller = new EnrollMe.Controllers.InstructorsController();
+        private EnrollMe.Controllers.InstructorsController _controller = new EnrollMe.Controllers.InstructorsController();
         public const string APIURL = "http://localhost/api/Instructors";
         public const string ROUTENAME = "DefaultApi";
         public const string ROUTETEMPLATE = "api/{controller}/{id}";
@@ -24,9 +24,9 @@ namespace EnrollMe.Tests
         [TestInitialize]
         public void TestInit()
         {
-            controller.Request = new HttpRequestMessage(HttpMethod.Get, APIURL);
-            controller.Configuration = new HttpConfiguration();
-            controller.Configuration.Routes.MapHttpRoute(
+            _controller.Request = new HttpRequestMessage(HttpMethod.Get, APIURL);
+            _controller.Configuration = new HttpConfiguration();
+            _controller.Configuration.Routes.MapHttpRoute(
                 name: ROUTENAME,
                 routeTemplate: ROUTETEMPLATE,
                 defaults: new { id = RouteParameter.Optional });
@@ -35,43 +35,46 @@ namespace EnrollMe.Tests
         [TestMethod]
         public void Instructors_GetAll()
         {
-            var response = controller.Get();
+            var response = _controller.Get();
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NoContent);
         }
 
         [TestMethod]
         public void Instructors_GetById()
         {
-            var response = controller.Get(0);
+            var response = _controller.Get(0);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
         }
 
         [TestMethod]
-        public void Instructors_Post()
+        public void Instructors_PostDelete()
         {
             var instructorName = new InstructorName();
-            controller.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
-            controller.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-            var response = controller.Post(instructorName);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.Conflict);
 
-            response = controller.Post(null);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
+            //var response = _controller.Post(null);
+            //Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
 
             instructorName.FirstName = "First";
             instructorName.MiddleName = "Middle";
             instructorName.LastName = "Last";
-            response = controller.Post(instructorName);
+            _controller.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
+            _controller.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+            var response = _controller.Post(instructorName);
+
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             var data = ((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data;
             Assert.AreEqual((data.ReturnModel as EnrollMeDB.Instructors).LastName, instructorName.LastName);
             Assert.IsTrue(((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Links.Count() > 0);
 
-            response = controller.Post(instructorName);
+            _controller.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
+            _controller.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+            response = _controller.Post(instructorName);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            data = ((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data;
             Assert.AreEqual((data.ReturnModel as EnrollMeDB.Instructors).LastName, instructorName.LastName);
             Assert.IsTrue(((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Links.Count() > 0);
+
+            response = _controller.Delete((data.ReturnModel as EnrollMeDB.Instructors).InstructorId);
+            Assert.AreEqual(1, ((APICommon.APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data.ReturnModel);
         }
 
     }

@@ -75,18 +75,19 @@
     <Compile Include="InstructorsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HelperTests.cs" />
+    <Compile Include="ClassesTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\Projects\EnrollMeDB\EnrollMeDB\EnrollMeDB.csproj">
-      <Project>{8a4beadb-91bf-4975-a6c5-1775904eec7a}</Project>
-      <Name>EnrollMeDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\APICommon\APICommon.csproj">
       <Project>{7ad983ab-ea12-4442-b0af-4b2820024b0d}</Project>
       <Name>APICommon</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EnrollMeDB\EnrollMeDB.csproj">
+      <Project>{8a4beadb-91bf-4975-a6c5-1775904eec7a}</Project>
+      <Name>EnrollMeDB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EnrollMe\EnrollMe.csproj">
-      <Project>{AF4D00D2-1546-44A4-BE34-71970717871E}</Project>
+      <Project>{af4d00d2-1546-44a4-be34-71970717871e}</Project>
       <Name>EnrollMe</Name>
     </ProjectReference>
   </ItemGroup>

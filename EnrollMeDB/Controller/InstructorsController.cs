@@ -70,9 +70,9 @@ namespace EnrollMeDB.Controller
             return instructor;
         }
 
-        public Instructors Get(int instructId)
+        public Instructors Get(int instructorId)
         {
-            var instructor = db.Instructors.FirstOrDefault(q => q.InstructorId == instructId);
+            var instructor = db.Instructors.FirstOrDefault(q => q.InstructorId == instructorId);
             return instructor;
         }
     }
