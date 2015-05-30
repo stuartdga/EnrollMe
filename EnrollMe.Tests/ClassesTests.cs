@@ -16,52 +16,60 @@ namespace EnrollMe.Tests
     [TestClass]
     public class ClassesTests
     {
-        private EnrollMe.Controllers.ClassesController _controller = new EnrollMe.Controllers.ClassesController();
+        private EnrollMe.Controllers.ClassesController _classesController = new EnrollMe.Controllers.ClassesController();
         private EnrollMe.Controllers.InstructorsController _instructorsController = new EnrollMe.Controllers.InstructorsController();
-        public const string APIURL = "http://localhost/api/Classes";
+        public const string APIURL = "http://localhost/api/";
         public const string ROUTENAME = "DefaultApi";
         public const string ROUTETEMPLATE = "api/{controller}/{id}";
-        private int instructorId;
+        private int _instructorId;
+        private string _value;
 
         [TestInitialize]
         public void TestInit()
         {
-            _controller.Request = new HttpRequestMessage(HttpMethod.Get, APIURL);
-            _controller.Configuration = new HttpConfiguration();
-            _controller.Configuration.Routes.MapHttpRoute(
+            _classesController.Request = new HttpRequestMessage(HttpMethod.Get, APIURL + "Classes");
+            _classesController.Configuration = new HttpConfiguration();
+            _classesController.Configuration.Routes.MapHttpRoute(
                 name: ROUTENAME,
                 routeTemplate: ROUTETEMPLATE,
                 defaults: new { id = RouteParameter.Optional });
+            _value = Helper.GetNewValue();
             var instructorName = new InstructorName
             {
-                FirstName = "asdf",
-                MiddleName = "asdf",
-                LastName = "asdf",
+                FirstName = _value,
+                MiddleName = _value,
+                LastName = _value,
             };
+            _instructorsController.Request = new HttpRequestMessage(HttpMethod.Post, APIURL + "Instructors");
             _instructorsController.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
             _instructorsController.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+            _instructorsController.Configuration = new HttpConfiguration();
+            _instructorsController.Configuration.Routes.MapHttpRoute(
+                name: ROUTENAME,
+                routeTemplate: ROUTETEMPLATE,
+                defaults: new { id = RouteParameter.Optional });
             var response = _instructorsController.Post(instructorName);
             var data = ((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data;
-            instructorId = (data.ReturnModel as EnrollMeDB.Instructors).InstructorId;
+            _instructorId = (data.ReturnModel as EnrollMeDB.Instructors).InstructorId;
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            _instructorsController.Delete(instructorId);
+            _instructorsController.Delete(_instructorId);
         }
 
         [TestMethod]
         public void Classes_GetAll()
         {
-            var response = _controller.Get();
+            var response = _classesController.Get();
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NoContent);
         }
 
         [TestMethod]
         public void Classes_GetById()
         {
-            var response = _controller.Get(0);
+            var response = _classesController.Get(0);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
         }
 
@@ -69,27 +77,28 @@ namespace EnrollMe.Tests
         public void Classes_PostDelete()
         {
             var classObject = new ClassObject();
-            classObject.ClassName = "asdf";
-            classObject.DayOfClass = "asdf";
-            classObject.TimeOfClass = "asdf";
-            classObject.Location = "asdf";
-            _controller.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(classObject));
-            _controller.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-            var response = _controller.Post(classObject);
+            classObject.ClassName = _value;
+            classObject.DayOfClass = _value;
+            classObject.TimeOfClass = _value;
+            classObject.Location = _value;
+            classObject.InstructorId = _instructorId;
+            _classesController.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(classObject));
+            _classesController.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+            var response = _classesController.Post(classObject);
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             var data = ((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data;
             Assert.AreEqual((data.ReturnModel as EnrollMeDB.Classes).ClassName, classObject.ClassName);
             Assert.IsTrue(((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Links.Count() > 0);
 
-            _controller.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(classObject));
-            _controller.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
-            response = _controller.Post(classObject);
+            _classesController.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(classObject));
+            _classesController.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
+            response = _classesController.Post(classObject);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             Assert.AreEqual((data.ReturnModel as EnrollMeDB.Classes).ClassName, classObject.ClassName);
             Assert.IsTrue(((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Links.Count() > 0);
 
-            response = _controller.Delete((data.ReturnModel as EnrollMeDB.Classes).ClassId);
+            response = _classesController.Delete((data.ReturnModel as EnrollMeDB.Classes).ClassId);
             Assert.AreEqual(1, ((APICommon.APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data.ReturnModel);
         }
     }

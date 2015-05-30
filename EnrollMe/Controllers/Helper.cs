@@ -36,6 +36,25 @@ namespace EnrollMe.Controllers
                             break;
                     }
                     break;
+                case ("CLASSES"):
+                    switch (method.ToUpper())
+                    {
+                        case "GET":
+                        case "POST":
+                        case "DELETE":
+                            route = new { controller = controller };
+                            links.Add(new LinkModel("get classes", urlHelper.Link(routeName, route), RestRequestVerb.GET));
+                            links.Add(new LinkModel("post classes", urlHelper.Link(routeName, route), RestRequestVerb.POST));
+                            if (id > 0)
+                            {
+                                route = new { controller = controller, id = id };
+                                links.Add(new LinkModel("get class", urlHelper.Link(routeName, route), RestRequestVerb.GET));
+                                links.Add(new LinkModel("delete class", urlHelper.Link(routeName, route), RestRequestVerb.DELETE));
+                            }
+
+                            break;
+                    }
+                    break;
                 default:
                     break;
             }

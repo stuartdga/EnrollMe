@@ -20,6 +20,7 @@ namespace EnrollMe.Tests
         public const string APIURL = "http://localhost/api/Instructors";
         public const string ROUTENAME = "DefaultApi";
         public const string ROUTETEMPLATE = "api/{controller}/{id}";
+        private string _value;
 
         [TestInitialize]
         public void TestInit()
@@ -30,6 +31,7 @@ namespace EnrollMe.Tests
                 name: ROUTENAME,
                 routeTemplate: ROUTETEMPLATE,
                 defaults: new { id = RouteParameter.Optional });
+            _value = Helper.GetNewValue();
         }
 
         [TestMethod]
@@ -54,9 +56,9 @@ namespace EnrollMe.Tests
             //var response = _controller.Post(null);
             //Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
 
-            instructorName.FirstName = "First";
-            instructorName.MiddleName = "Middle";
-            instructorName.LastName = "Last";
+            instructorName.FirstName = _value;
+            instructorName.MiddleName = _value;
+            instructorName.LastName = _value;
             _controller.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
             _controller.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
             var response = _controller.Post(instructorName);
