@@ -131,6 +131,7 @@
     <Content Include="enroll-r.html" />
     <Content Include="enroll.html" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\EnrollMeAPI.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="js\enroll.js" />
     <Content Include="js\ui.js" />
