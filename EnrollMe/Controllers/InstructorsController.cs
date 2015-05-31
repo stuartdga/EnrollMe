@@ -38,13 +38,13 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "No instructors found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "No instructors found");
                 }
             }
             catch (Exception ex)
             {
                 // log your exception
-                return apiResponse.CreateErrorResponse(HttpStatusCode.Conflict, "", "An exception has occurred");
+                return apiResponse.CreateErrorResponse(HttpStatusCode.InternalServerError, "", "An exception has occurred");
             }
 
         }
@@ -63,13 +63,13 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "Instructor was not found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Instructor was not found");
                 }
             }
             catch (Exception ex)
             {
                 // log your exception
-                return apiResponse.CreateErrorResponse(HttpStatusCode.Conflict, "", "An exception has occurred");
+                return apiResponse.CreateErrorResponse(HttpStatusCode.InternalServerError, "", "An exception has occurred");
             }
         }
 
@@ -91,13 +91,13 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "Instructor was not added");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Instructor was not added");
                 }
             }
             catch (Exception ex)
             {
                 // log your exception
-                return apiResponse.CreateErrorResponse(HttpStatusCode.Conflict, "", "An exception has occurred");
+                return apiResponse.CreateErrorResponse(HttpStatusCode.InternalServerError, "", "An exception has occurred");
             }
         }
 
@@ -120,13 +120,13 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NoContent, "", "Instructor was not found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Instructor was not found");
                 }
             }
             catch (Exception ex)
             {
                 // log your exception
-                return apiResponse.CreateErrorResponse(HttpStatusCode.Conflict, "", "An exception has occurred");
+                return apiResponse.CreateErrorResponse(HttpStatusCode.InternalServerError, "", "An exception has occurred");
             }
         }
     }

@@ -55,6 +55,8 @@ namespace APICommon
                     {
                         ErrorId = errorId,
                         ErrorMessage = errorMessage,
+                        InfoMessage = "Failure",
+                        ReturnModel = "",
                     }
                 });
             return message;

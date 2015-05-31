@@ -63,14 +63,14 @@ namespace EnrollMe.Tests
         public void Classes_GetAll()
         {
             var response = _classesController.Get();
-            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NoContent);
+            Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NotFound);
         }
 
         [TestMethod]
         public void Classes_GetById()
         {
             var response = _classesController.Get(0);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
         }
 
         [TestMethod]
