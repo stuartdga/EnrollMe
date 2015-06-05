@@ -25,8 +25,10 @@ namespace EnrollMeDB
         public string TimeOfClass { get; set; }
         public string Location { get; set; }
         public int InstructorId { get; set; }
+        public string Organization { get; set; }
     
-        public virtual Instructors Instructor { get; set; }
+        public virtual Instructors Instructors { get; set; }
         public virtual ICollection<Students> Students { get; set; }
+        public virtual Organizations Organizations { get; set; }
     }
 }

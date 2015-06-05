@@ -12,6 +12,7 @@ namespace EnrollMeDBTest
     [TestClass]
     public class InstructorsTests
     {
+        private string _organization = System.Configuration.ConfigurationManager.AppSettings["Organization"].ToString();
         private InstructorsController controller = new InstructorsController();
         private string _value;
 
@@ -24,20 +25,20 @@ namespace EnrollMeDBTest
         [TestMethod]
         public void Instructors_AddRemove()
         {
-            var instructor = controller.Add(_value, _value, _value);
+            var instructor = controller.Add(_value, _value, _value, _organization);
             Assert.IsTrue(instructor.InstructorId > 0);
-            var instructor2 = controller.Add(_value, _value, _value);
+            var instructor2 = controller.Add(_value, _value, _value, _organization);
             Assert.AreEqual(instructor, instructor2);
-            var result = controller.Remove(_value, _value, _value);
+            var result = controller.Remove(_value, _value, _value, _organization);
             Assert.AreEqual(result, 1);
-            result = controller.Remove(_value, _value, _value);
+            result = controller.Remove(_value, _value, _value, _organization);
             Assert.AreEqual(result, 0);
         }
 
         [TestMethod]
         public void Instructors_RemoveById()
         {
-            var instructor = controller.Add(_value, _value, _value);
+            var instructor = controller.Add(_value, _value, _value, _organization);
             Assert.IsTrue(instructor.InstructorId > 0);
             int instructorId = instructor.InstructorId;
             var result = controller.Remove(instructorId);
@@ -49,24 +50,24 @@ namespace EnrollMeDBTest
         [TestMethod]
         public void Instructors_GetAll()
         {
-            controller.Add(_value, _value, _value);
+            controller.Add(_value, _value, _value, _organization);
             var instructors = controller.GetAll();
             int i = instructors.Count();
             Assert.IsTrue(i > 0);
-            controller.Remove(_value, _value, _value);
+            controller.Remove(_value, _value, _value, _organization);
         }
 
         [TestMethod]
         public void Instructor_Get()
         {
-            controller.Add(_value, _value, _value);
+            controller.Add(_value, _value, _value, _organization);
             var instructors = controller.GetAll();
             var instructor1 = instructors.First();
             var instructor2 = controller.Get(instructor1.FirstName, instructor1.MiddleName, instructor1.LastName);
             Assert.AreEqual(instructor1, instructor2);
             var instructor3 = controller.Get(instructor1.InstructorId);
             Assert.AreEqual(instructor1, instructor3);
-            controller.Remove(_value, _value, _value);
+            controller.Remove(_value, _value, _value, _organization);
         }
     }
 }

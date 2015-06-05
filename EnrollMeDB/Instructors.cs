@@ -16,7 +16,6 @@ namespace EnrollMeDB
     {
         public Instructors()
         {
-            this.MiddleName = "\"\"";
             this.Classes = new HashSet<Classes>();
         }
     
@@ -24,7 +23,9 @@ namespace EnrollMeDB
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string Organization { get; set; }
     
         public virtual ICollection<Classes> Classes { get; set; }
+        public virtual Organizations Organizations { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace EnrollMeDB
     
         public virtual DbSet<Classes> Classes { get; set; }
         public virtual DbSet<Instructors> Instructors { get; set; }
+        public virtual DbSet<Organizations> Organizations { get; set; }
         public virtual DbSet<Students> Students { get; set; }
     }
 }

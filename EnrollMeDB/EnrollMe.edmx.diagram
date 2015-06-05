@@ -5,11 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e3d3a82642c640b2a937091714856c6e" Name="Diagram1">
-        <EntityTypeShape EntityType="EnrollMeModel.Classes" Width="1.5" PointX="3.125" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="EnrollMeModel.Instructors" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <AssociationConnector Association="EnrollMeModel.FK_ClassesInstructors" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="EnrollMeModel.Students" Width="1.5" PointX="5.5" PointY="1.375" />
-        <AssociationConnector Association="EnrollMeModel.ClassesStudents" />
+        <EntityTypeShape EntityType="EnrollMeModel.Classes" Width="1.5" PointX="6" PointY="2.25" />
+        <EntityTypeShape EntityType="EnrollMeModel.Instructors" Width="1.5" PointX="3.75" PointY="4.125" />
+        <EntityTypeShape EntityType="EnrollMeModel.Organizations" Width="1.5" PointX="1.5" PointY="0.875" />
+        <EntityTypeShape EntityType="EnrollMeModel.Students" Width="1.5" PointX="8.25" PointY="2.375" />
+        <AssociationConnector Association="EnrollMeModel.FK_ClassesInstructors" />
+        <AssociationConnector Association="EnrollMeModel.FK_ClassesStudents" />
+        <AssociationConnector Association="EnrollMeModel.FK_OrganizationsClasses" />
+        <AssociationConnector Association="EnrollMeModel.FK_OrganizationsInstructors" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

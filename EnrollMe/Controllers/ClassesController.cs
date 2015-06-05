@@ -17,6 +17,7 @@ namespace EnrollMe.Controllers
         public string TimeOfClass { get; set; }
         public string Location { get; set; }
         public int InstructorId { get; set; }
+        public string Organization { get; set; }
     }
 
     public class ClassesController : ApiController
@@ -76,12 +77,12 @@ namespace EnrollMe.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage Get([FromUri] string className, string dayOfClass, string timeOfClass, string location)
+        public HttpResponseMessage Get([FromUri] string className, string dayOfClass, string timeOfClass, string location, string organization)
         {
             try
             {
                 apiResponse.Request = Request;
-                var classes = _controller.Get(className, dayOfClass, timeOfClass, location);
+                var classes = _controller.Get(className, dayOfClass, timeOfClass, location, organization);
                 if (classes != null)
                 {
                     apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Get");
@@ -110,7 +111,7 @@ namespace EnrollMe.Controllers
                 }
                 apiResponse.Request = Request;
                 var classes = _controller.Add(classObject.ClassName, classObject.DayOfClass, classObject.TimeOfClass, 
-                                                classObject.Location, classObject.InstructorId);
+                                                classObject.Location, classObject.InstructorId, classObject.Organization);
                 if (classes != null)
                 {
                     apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Post");

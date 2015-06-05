@@ -21,6 +21,7 @@ namespace EnrollMe.Tests
         public const string APIURL = "http://localhost/api/";
         public const string ROUTENAME = "DefaultApi";
         public const string ROUTETEMPLATE = "api/{controller}/{id}";
+        private string _organization = System.Configuration.ConfigurationManager.AppSettings["Organization"];
         private int _instructorId;
         private string _value;
 
@@ -34,11 +35,12 @@ namespace EnrollMe.Tests
                 routeTemplate: ROUTETEMPLATE,
                 defaults: new { id = RouteParameter.Optional });
             _value = Helper.GetNewValue();
-            var instructorName = new InstructorName
+            var instructorName = new InstructorModel
             {
                 FirstName = _value,
                 MiddleName = _value,
                 LastName = _value,
+                Organization = _organization,
             };
             _instructorsController.Request = new HttpRequestMessage(HttpMethod.Post, APIURL + "Instructors");
             _instructorsController.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(instructorName));
@@ -82,6 +84,7 @@ namespace EnrollMe.Tests
             classObject.TimeOfClass = _value;
             classObject.Location = _value;
             classObject.InstructorId = _instructorId;
+            classObject.Organization = _organization;
             _classesController.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(classObject));
             _classesController.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
             var response = _classesController.Post(classObject);

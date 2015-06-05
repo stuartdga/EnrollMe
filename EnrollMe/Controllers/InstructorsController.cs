@@ -10,11 +10,12 @@ using EnrollMeDB;
 
 namespace EnrollMe.Controllers
 {
-    public class InstructorName
+    public class InstructorModel
     {
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+        public string Organization { get; set; }
     }
 
     [EnableCorsCustom]
@@ -74,16 +75,17 @@ namespace EnrollMe.Controllers
         }
 
         // POST: api/Intructors
-        public HttpResponseMessage Post(InstructorName instructorName)
+        public HttpResponseMessage Post(InstructorModel instructorModel)
         {
             try
             {
-                if (instructorName == null)
+                if (instructorModel == null)
                 {
                     return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Instructor name not provided");
                 }
                 apiResponse.Request = Request;
-                var instructor = _controller.Add(instructorName.FirstName, instructorName.MiddleName, instructorName.LastName);
+                var instructor = _controller.Add(instructorModel.FirstName, instructorModel.MiddleName,
+                                                instructorModel.LastName, instructorModel.Organization);
                 if (instructor != null)
                 {
                     apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Post", instructor.InstructorId);

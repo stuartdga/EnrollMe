@@ -12,18 +12,21 @@ namespace EnrollMeDBTest
     [TestClass]
     public class StudentsTests
     {
+        private string _organization = System.Configuration.ConfigurationManager.AppSettings["Organization"].ToString();
         private StudentsController controller = new StudentsController();
         private ClassesController classesController = new ClassesController();
         private InstructorsController instructorsController = new InstructorsController();
         private int classId;
         private int instructorId;
+        private string _value;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            var instructor = instructorsController.Add("asdf", "asdf", "asdf");
+            _value = Helper.GetNewValue();
+            var instructor = instructorsController.Add(_value, _value, _value, _organization);
             instructorId = instructor.InstructorId;
-            var classes = classesController.Add("asdf", "asdf", "asdf", "asdf", instructorId);
+            var classes = classesController.Add(_value, _value, _value, _value, instructorId, _organization);
             classId = classes.ClassId;
         }
 
@@ -37,9 +40,9 @@ namespace EnrollMeDBTest
         [TestMethod]
         public void Students_AddGetRemove()
         {
-            var student = controller.Add("asdf", "asdf", "asdf", "asdf", "asdf", classId);
+            var student = controller.Add(_value, _value, _value, _value, _value, classId);
             Assert.IsTrue(student.StudentId > 0);
-            var student2 = controller.Add("asdf", "asdf", "asdf", "asdf", "asdf", classId);
+            var student2 = controller.Add(_value, _value, _value, _value, _value, classId);
             Assert.AreEqual(student, student2);
             var students = controller.GetStudentsByClassId(student.ClassesId);
             Assert.AreEqual(student, students.First());

@@ -12,16 +12,17 @@ namespace EnrollMeDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Students
+    public partial class Organizations
     {
-        public int StudentId { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public int ClassesId { get; set; }
+        public Organizations()
+        {
+            this.Classes = new HashSet<Classes>();
+            this.Instructors = new HashSet<Instructors>();
+        }
     
-        public virtual Classes Classes { get; set; }
+        public string Organization { get; set; }
+    
+        public virtual ICollection<Classes> Classes { get; set; }
+        public virtual ICollection<Instructors> Instructors { get; set; }
     }
 }

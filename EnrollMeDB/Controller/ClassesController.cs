@@ -10,7 +10,7 @@ namespace EnrollMeDB.Controller
     {
         private EnrollMeModal db = new EnrollMeModal();
 
-        public Classes Add(string className, string dayOfClass, string timeOfClass, string location, int instructorId)
+        public Classes Add(string className, string dayOfClass, string timeOfClass, string location, int instructorId, string organization)
         {
             var classes = new Classes();
             classes.ClassName = className;
@@ -18,10 +18,12 @@ namespace EnrollMeDB.Controller
             classes.TimeOfClass = timeOfClass;
             classes.Location = location;
             classes.InstructorId = instructorId;
+            classes.Organization = organization;
             var existingClass = db.Classes.FirstOrDefault(q => q.ClassName == className &&
                                                                 q.DayOfClass == dayOfClass &&
                                                                 q.TimeOfClass == timeOfClass &&
-                                                                q.Location == location);
+                                                                q.Location == location &&
+                                                                q.Organization == organization);
             if (existingClass == null)
             {
                 db.Classes.Add(classes);
@@ -45,13 +47,14 @@ namespace EnrollMeDB.Controller
             return result;
         }
 
-        public int Remove(string className, string dayOfClass, string timeOfClass, string location)
+        public int Remove(string className, string dayOfClass, string timeOfClass, string location, string organization)
         {
             int result = 0;
             var classes = db.Classes.FirstOrDefault(q => q.ClassName == className &&
                                                                 q.DayOfClass == dayOfClass &&
                                                                 q.TimeOfClass == timeOfClass &&
-                                                                q.Location == location);
+                                                                q.Location == location &&
+                                                                q.Organization == organization);
             if (classes != null)
             {
                 db.Classes.Remove(classes);
@@ -72,12 +75,13 @@ namespace EnrollMeDB.Controller
             return classObject;
         }
 
-        public Classes Get(string className, string dayOfClass, string timeOfClass, string location)
+        public Classes Get(string className, string dayOfClass, string timeOfClass, string location, string organization)
         {
             var classObject = db.Classes.FirstOrDefault(q => q.ClassName == className &&
                                                                 q.DayOfClass == dayOfClass &&
                                                                 q.TimeOfClass == timeOfClass &&
-                                                                q.Location == location);
+                                                                q.Location == location &&
+                                                                q.Organization == organization);
             return classObject;
         }
 

@@ -10,16 +10,18 @@ namespace EnrollMeDB.Controller
     {
         private EnrollMeModal db = new EnrollMeModal();
 
-        public Instructors Add(string firstName, string middleName, string lastName)
+        public Instructors Add(string firstName, string middleName, string lastName, string organization)
         {
             
             var instructor = new Instructors();
             instructor.FirstName = firstName;
             instructor.MiddleName = middleName;
             instructor.LastName = lastName;
+            instructor.Organization = organization;
             var existingInstructor = db.Instructors.FirstOrDefault(q => q.FirstName == firstName &&
                                                                     q.MiddleName == middleName && 
-                                                                    q.LastName == lastName);
+                                                                    q.LastName == lastName &&
+                                                                    q.Organization == organization);
             if (existingInstructor == null)
             {
                 db.Instructors.Add(instructor);
@@ -43,12 +45,13 @@ namespace EnrollMeDB.Controller
             return result;
         }
         
-        public int Remove(string firstName, string middleName, string lastName)
+        public int Remove(string firstName, string middleName, string lastName, string organization)
         {
             int result = 0;
             var instructor = db.Instructors.FirstOrDefault(q => q.FirstName == firstName && 
                                                                     q.MiddleName == middleName &&
-                                                                    q.LastName == lastName);
+                                                                    q.LastName == lastName &&
+                                                                    q.Organization == organization);
             if (instructor != null)
             {
                 db.Instructors.Remove(instructor);
@@ -62,9 +65,18 @@ namespace EnrollMeDB.Controller
             return db.Instructors;
         }
 
-        public Instructors Get(string firstName, string middleName, string lastName)
+        public Instructors Get(string firstName, string middleName, string lastName, string organization)
         {
             var instructor = db.Instructors.FirstOrDefault(q => q.FirstName == firstName && 
+                                                                q.MiddleName == middleName &&
+                                                                q.LastName == lastName &&
+                                                                q.Organization == organization);
+            return instructor;
+        }
+
+        public Instructors Get(string firstName, string middleName, string lastName)
+        {
+            var instructor = db.Instructors.FirstOrDefault(q => q.FirstName == firstName &&
                                                                 q.MiddleName == middleName &&
                                                                 q.LastName == lastName);
             return instructor;
