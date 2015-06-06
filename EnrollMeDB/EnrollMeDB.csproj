@@ -53,9 +53,9 @@
     <Compile Include="Classes.cs">
       <DependentUpon>EnrollMe.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controller\ClassesController.cs" />
-    <Compile Include="Controller\InstructorsController.cs" />
-    <Compile Include="Controller\StudentsController.cs" />
+    <Compile Include="Controller\ClassesDBController.cs" />
+    <Compile Include="Controller\InstructorsDBController.cs" />
+    <Compile Include="Controller\StudentsDBController.cs" />
     <Compile Include="EnrollMe.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -13,7 +13,7 @@ namespace EnrollMeDBTest
     public class InstructorsTests
     {
         private string _organization = System.Configuration.ConfigurationManager.AppSettings["Organization"].ToString();
-        private InstructorsController controller = new InstructorsController();
+        private InstructorsDBController controller = new InstructorsDBController();
         private string _value;
 
         [TestInitialize]

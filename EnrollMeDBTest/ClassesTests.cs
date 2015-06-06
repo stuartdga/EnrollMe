@@ -13,8 +13,8 @@ namespace EnrollMeDBTest
     public class ClassesTests
     {
         private string _organization = System.Configuration.ConfigurationManager.AppSettings["Organization"].ToString();
-        private ClassesController controller = new ClassesController();
-        private InstructorsController instructorsController = new InstructorsController();
+        private ClassesDBController controller = new ClassesDBController();
+        private InstructorsDBController instructorsController = new InstructorsDBController();
         private int _instructorId;
         private string _value;
 

@@ -18,6 +18,7 @@ namespace EnrollMeDB
         public EnrollMeModal()
             : base("name=EnrollMeModal")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

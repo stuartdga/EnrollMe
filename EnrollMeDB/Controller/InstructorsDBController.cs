@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EnrollMeDB.Controller
 {
-    public class InstructorsController
+    public class InstructorsDBController
     {
         private EnrollMeModal db = new EnrollMeModal();
 
