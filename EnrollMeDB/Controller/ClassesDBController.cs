@@ -63,18 +63,6 @@ namespace EnrollMeDB.Controller
             return result;
         }
 
-        public IQueryable<Classes> GetAll()
-        {
-            return db.Classes;
-        }
-
-        public Classes Get(string className, string dayOfClass)
-        {
-            var classObject = db.Classes.FirstOrDefault(q => q.ClassName == className &&
-                                                                q.DayOfClass == dayOfClass);
-            return classObject;
-        }
-
         public Classes Get(string className, string dayOfClass, string timeOfClass, string location, string organization)
         {
             var classObject = db.Classes.FirstOrDefault(q => q.ClassName == className &&
@@ -89,6 +77,12 @@ namespace EnrollMeDB.Controller
         {
             var classObject = db.Classes.FirstOrDefault(q => q.ClassId == id);
             return classObject;
+        }
+
+        public IList<Classes> Get(string organization)
+        {
+            var classes = db.Classes.Where(q => q.Organization == organization);
+            return classes.ToList();
         }
     }
 }

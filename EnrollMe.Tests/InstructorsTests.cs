@@ -36,7 +36,7 @@ namespace EnrollMe.Tests
         }
 
         [TestMethod]
-        public void Instructors_GetAll()
+        public void Instructors_Get()
         {
             var response = _controller.Get();
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NotFound);

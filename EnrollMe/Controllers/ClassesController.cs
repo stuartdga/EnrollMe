@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -24,7 +25,8 @@ namespace EnrollMe.Controllers
     {
         private APIResponseMessage apiResponse = new APIResponseMessage();
         public const string ROUTENAME = "DefaultApi";
-        private EnrollMeDB.Controller.ClassesController _controller = new EnrollMeDB.Controller.ClassesController();
+        private EnrollMeDB.Controller.ClassesDBController _controller = new EnrollMeDB.Controller.ClassesDBController();
+        private string _organization = System.Configuration.ConfigurationManager.AppSettings["Organization"].ToString();
 
         // GET: api/Classes
         public HttpResponseMessage Get()
@@ -32,7 +34,7 @@ namespace EnrollMe.Controllers
             try
             {
                 apiResponse.Request = Request;
-                var classes = _controller.GetAll();
+                var classes = _controller.Get(_organization);
                 if (classes != null)
                 {
                     apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Get");
@@ -57,7 +59,7 @@ namespace EnrollMe.Controllers
             try
             {
                 apiResponse.Request = Request;
-                var controller = new EnrollMeDB.Controller.ClassesController();
+                var controller = new EnrollMeDB.Controller.ClassesDBController();
                 EnrollMeDB.Classes classes = controller.Get(id);
                 if (classes != null)
                 {

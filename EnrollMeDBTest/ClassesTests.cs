@@ -50,11 +50,8 @@ namespace EnrollMeDBTest
         {
             var result = controller.Remove(_value, _value, _value, _value, _organization);
             var classes = controller.Add(_value, _value, _value, _value, _instructorId, _organization);
-            Assert.AreEqual(classes, controller.Get(_value, _value));
             Assert.AreEqual(classes, controller.Get(_value, _value, _value, _value, _organization));
             Assert.AreEqual(classes, controller.Get(classes.ClassId));
-            var classes2 = controller.GetAll();
-            Assert.AreEqual(classes, classes2.FirstOrDefault(q => q.ClassId == classes.ClassId));
             result = controller.Remove(_value, _value, _value, _value, _organization);
         }
     }

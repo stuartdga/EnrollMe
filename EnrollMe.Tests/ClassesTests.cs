@@ -62,7 +62,7 @@ namespace EnrollMe.Tests
         }
 
         [TestMethod]
-        public void Classes_GetAll()
+        public void Classes_Get()
         {
             var response = _classesController.Get();
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.NotFound);

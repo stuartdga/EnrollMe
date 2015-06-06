@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -23,18 +24,20 @@ namespace EnrollMe.Controllers
     {
         private APIResponseMessage apiResponse = new APIResponseMessage();
         public const string ROUTENAME = "DefaultApi";
-        private EnrollMeDB.Controller.InstructorsController _controller = new EnrollMeDB.Controller.InstructorsController();
+        private EnrollMeDB.Controller.InstructorsDBController _controller = new EnrollMeDB.Controller.InstructorsDBController();
+        private string _organization = System.Configuration.ConfigurationManager.AppSettings["Organization"].ToString();
 
         // GET: api/Intructors
         public HttpResponseMessage Get()
         {
             try
             {
+
                 apiResponse.Request = Request;
-                var instructors = _controller.GetAll();
+                var instructors = _controller.Get(_organization);
                 if (instructors != null)
                 {
-                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Get");
+                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors?organzation", "Get");
                     return apiResponse.CreateResponse(HttpStatusCode.OK, instructors);
                 }
                 else

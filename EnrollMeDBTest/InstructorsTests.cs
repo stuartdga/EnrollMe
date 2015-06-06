@@ -48,12 +48,15 @@ namespace EnrollMeDBTest
         }
 
         [TestMethod]
-        public void Instructors_GetAll()
+        public void Instructors_GetByOrganization()
         {
             controller.Add(_value, _value, _value, _organization);
-            var instructors = controller.GetAll();
+            var instructors = controller.Get(_organization);
             int i = instructors.Count();
             Assert.IsTrue(i > 0);
+            int id = instructors[0].InstructorId;
+            var instructor = controller.Get(id);
+            Assert.AreEqual(id, instructor.InstructorId);
             controller.Remove(_value, _value, _value, _organization);
         }
 
@@ -61,9 +64,9 @@ namespace EnrollMeDBTest
         public void Instructor_Get()
         {
             controller.Add(_value, _value, _value, _organization);
-            var instructors = controller.GetAll();
+            var instructors = controller.Get(_organization);
             var instructor1 = instructors.First();
-            var instructor2 = controller.Get(instructor1.FirstName, instructor1.MiddleName, instructor1.LastName);
+            var instructor2 = controller.Get(instructor1.FirstName, instructor1.MiddleName, instructor1.LastName, _organization);
             Assert.AreEqual(instructor1, instructor2);
             var instructor3 = controller.Get(instructor1.InstructorId);
             Assert.AreEqual(instructor1, instructor3);

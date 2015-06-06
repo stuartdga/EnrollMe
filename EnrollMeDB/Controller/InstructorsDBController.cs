@@ -60,11 +60,6 @@ namespace EnrollMeDB.Controller
             return result;
         }
 
-        public IQueryable<Instructors> GetAll()
-        {
-            return db.Instructors;
-        }
-
         public Instructors Get(string firstName, string middleName, string lastName, string organization)
         {
             var instructor = db.Instructors.FirstOrDefault(q => q.FirstName == firstName && 
@@ -74,18 +69,16 @@ namespace EnrollMeDB.Controller
             return instructor;
         }
 
-        public Instructors Get(string firstName, string middleName, string lastName)
-        {
-            var instructor = db.Instructors.FirstOrDefault(q => q.FirstName == firstName &&
-                                                                q.MiddleName == middleName &&
-                                                                q.LastName == lastName);
-            return instructor;
-        }
-
         public Instructors Get(int instructorId)
         {
             var instructor = db.Instructors.FirstOrDefault(q => q.InstructorId == instructorId);
             return instructor;
+        }
+
+        public IList<Instructors> Get(string organization)
+        {
+            var instructors = db.Instructors.Where(q => q.Organization == organization);
+            return instructors.ToList<Instructors>();
         }
     }
 }
