@@ -9,7 +9,7 @@ var ClassRow = React.createClass({
         return(
             <tr>
                 <td><span id="classname">{this.props.classRow.ClassName}</span></td>
-                <td><span id="dayofclass">{this.props.classRow.DayOfClass}</span><br /><span id="timeofclass">{this.props.classRow.TimeOfClass}</span></td>
+                <td><span id="dateofclass">{this.props.classRow.DayOfClass}&nbsp;{this.props.classRow.TimeOfClass}</span></td>
             </tr>
         );
     },
@@ -26,7 +26,7 @@ var ClassesTable = React.createClass({
 
         return (
         <div>
-            <table className="pure-table">
+            <table className="pure-table pure-table-bordered">
                 <thead>
                     <tr>
                         <th>Class</th>
