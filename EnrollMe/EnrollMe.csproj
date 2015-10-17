@@ -147,6 +147,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\HealthController.cs" />
     <Compile Include="Controllers\Helper.cs" />
     <Compile Include="Controllers\InstructorsController.cs" />
     <Compile Include="Global.asax.cs">
