@@ -46,7 +46,7 @@ namespace EnrollMe.Tests
         public void Instructors_GetById()
         {
             var response = _controller.Get(0);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
         }
 
         [TestMethod]

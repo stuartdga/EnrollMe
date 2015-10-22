@@ -42,7 +42,7 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "No instructors found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "No instructors found");
                 }
             }
             catch (Exception ex)
@@ -67,7 +67,7 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Instructor was not found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Instructor was not found");
                 }
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Instructor was not added");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Instructor was not added");
                 }
             }
             catch (Exception ex)
@@ -125,7 +125,7 @@ namespace EnrollMe.Controllers
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Instructor was not found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Instructor was not found");
                 }
             }
             catch (Exception ex)

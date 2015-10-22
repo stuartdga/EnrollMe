@@ -72,7 +72,7 @@ namespace EnrollMe.Tests
         public void Classes_GetById()
         {
             var response = _classesController.Get(0);
-            Assert.AreEqual(response.StatusCode, HttpStatusCode.NotFound);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
         }
 
         [TestMethod]
@@ -92,15 +92,13 @@ namespace EnrollMe.Tests
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             var data = ((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data;
             Assert.AreEqual((data.ReturnModel as EnrollMeDB.Classes).ClassName, classObject.ClassName);
-            Assert.IsTrue(((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Links.Count() > 0);
-
+            
             _classesController.Request.Content = new StringContent(EnrollMe.Controllers.Helper.SerializeJson(classObject));
             _classesController.Request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
             response = _classesController.Post(classObject);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             Assert.AreEqual((data.ReturnModel as EnrollMeDB.Classes).ClassName, classObject.ClassName);
-            Assert.IsTrue(((APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Links.Count() > 0);
-
+            
             response = _classesController.Delete((data.ReturnModel as EnrollMeDB.Classes).ClassId);
             Assert.AreEqual(1, ((APICommon.APIResponse)(((System.Net.Http.ObjectContent)(response.Content)).Value)).Data.ReturnModel);
         }

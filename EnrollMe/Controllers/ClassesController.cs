@@ -37,7 +37,7 @@ namespace EnrollMe.Controllers
                 var classes = _controller.Get(_organization);
                 if (classes != null)
                 {
-                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Get");
+                    //apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Get");
                     return apiResponse.CreateResponse(HttpStatusCode.OK, classes);
                 }
                 else
@@ -63,12 +63,12 @@ namespace EnrollMe.Controllers
                 EnrollMeDB.Classes classes = controller.Get(id);
                 if (classes != null)
                 {
-                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Get", id);
+                    //apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Instructors", "Get", id);
                     return apiResponse.CreateResponse(HttpStatusCode.OK, classes);
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Class was not found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Class was not found");
                 }
             }
             catch (Exception ex)
@@ -87,12 +87,12 @@ namespace EnrollMe.Controllers
                 var classes = _controller.Get(className, dayOfClass, timeOfClass, location, organization);
                 if (classes != null)
                 {
-                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Get");
+                    //apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Get");
                     return apiResponse.CreateResponse(HttpStatusCode.OK, classes);
                 }
                 else
                 {
-                    return apiResponse.CreateErrorResponse(HttpStatusCode.NotFound, "", "Class was not found");
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Class was not found");
                 }
             }
             catch (Exception ex)
@@ -116,7 +116,7 @@ namespace EnrollMe.Controllers
                                                 classObject.Location, classObject.InstructorId, classObject.Organization);
                 if (classes != null)
                 {
-                    apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Post");
+                    //apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Post");
                     return apiResponse.CreateResponse(HttpStatusCode.OK, classes);
                 }
                 else
@@ -139,16 +139,24 @@ namespace EnrollMe.Controllers
         // DELETE: api/Classes/5
         public HttpResponseMessage Delete(int id)
         {
-            apiResponse.Request = Request;
-            int result = _controller.Remove(id);
-            if (result > 0)
+            try
             {
-                apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Delete", id);
-                return apiResponse.CreateResponse(HttpStatusCode.OK, result);
+                apiResponse.Request = Request;
+                int result = _controller.Remove(id);
+                if (result > 0)
+                {
+                    //apiResponse.Links = Helper.SetLinks(Url, ROUTENAME, "Classes", "Delete", id);
+                    return apiResponse.CreateResponse(HttpStatusCode.OK, result);
+                }
+                else
+                {
+                    return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Class was not found");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return apiResponse.CreateErrorResponse(HttpStatusCode.BadRequest, "", "Class was not found");
+                // log your exception
+                return apiResponse.CreateErrorResponse(HttpStatusCode.InternalServerError, "", "An exception has occurred");
             }
         }
     }
