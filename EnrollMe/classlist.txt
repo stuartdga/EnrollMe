@@ -1,8 +1,0 @@
-[
-  {
-    "classname": "Cardio",
-    "instructor": "Chris",
-    "dayofclass": "Monday",
-    "timeofclass": "12:00 PM-1:00 PM"
-  }
-]
